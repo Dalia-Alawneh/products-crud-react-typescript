@@ -26,11 +26,8 @@ function App() {
   function openModal() {
     setIsOpen(true)
   }
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>):void => {
     const { value, name } = e.target;
-    console.log('====================================');
-    console.log(e.target.name);
-    console.log('====================================');
     setProduct({
       ...product,
       [name]: value
@@ -51,10 +48,10 @@ function App() {
       <Modal isOpen={isOpen} closeModal={closeModal} title='ADD A NEW PRODUCT'>
         <div className='space-y-3'>
           {renderAddProductFormInputs}
-          <div className="flex space-x-3">
+          <form className="flex space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-500" width='w-full'>Submit</Button>
             <Button className="bg-gray-600 hover:bg-gray-500" width='w-full' onClick={closeModal}>Cancel</Button>
-          </div>
+          </form>
         </div>
       </Modal>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-3 gap-2 md:gap-4'>
