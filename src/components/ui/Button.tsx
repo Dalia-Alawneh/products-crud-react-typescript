@@ -1,5 +1,5 @@
-import { ReactNode } from 'react'
-interface IProps {
+import { ButtonHTMLAttributes, ReactNode } from 'react'
+interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;
     className?: string;
     width?:"w-full" | "w-fit";
