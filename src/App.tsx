@@ -5,6 +5,8 @@ import Modal from './components/ui/Modal'
 import { formInputsList, productList } from './data'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { IProduct } from './interfaces'
+import { productValidation } from './validation'
+import ErrorMessage from './components/ErrorMessage'
 const initialProductState: IProduct = {
   title: "",
   description: "",
@@ -16,9 +18,16 @@ const initialProductState: IProduct = {
     imageURL: "",
   }
 }
+const initialErrorState = {
+  title: "",
+  description: "",
+  price: "",
+  imageURL: "",
+}
 function App() {
   const [isOpen, setIsOpen] = useState(false)
   const [product, setProduct] = useState(initialProductState)
+  const [errors, setErrors] = useState(initialErrorState)
   function closeModal() {
     setIsOpen(false)
   }
@@ -32,6 +41,10 @@ function App() {
       ...product,
       [name]: value
     })
+    setErrors({
+      ...errors,
+      [name]: '',
+    })
   }
   const onCancelHandler = (): void => {
     setProduct(initialProductState)
@@ -39,6 +52,21 @@ function App() {
   }
   const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+    const { title, description, imageURL, price } = product
+    const errors = productValidation({
+      title,
+      description,
+      imageURL,
+      price
+    })
+    const isProductValid = Object.values(errors).some(value => value === '') 
+    && Object.values(errors).every(value => value === '') 
+    if(!isProductValid){ 
+      setErrors(errors)
+      return 
+    }
+    console.log("Success");
+    
   }
 
   const renderProductList = productList.map(product => <ProductCard product={product} key={product.id} />)
@@ -46,6 +74,7 @@ function App() {
     return (<div key={input.id} className='flex flex-col'>
       <label className='text-sm font-medium mb-[3px]' htmlFor={input.id}>{input.label}</label>
       <Input name={input.name} id={input.id} value={product[input.name]} onChange={onChangeHandler} />
+      <ErrorMessage message={errors[input.name]} />
     </div>)
   })
 
