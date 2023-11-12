@@ -2,11 +2,12 @@ import ProductCard from './components/ProductCard'
 import Button from './components/ui/Button'
 import Input from './components/ui/Input'
 import Modal from './components/ui/Modal'
-import { formInputsList, productList } from './data'
+import { colors, formInputsList, productList } from './data'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { IProduct } from './interfaces'
 import { productValidation } from './validation'
 import ErrorMessage from './components/ErrorMessage'
+import CircleColor from './components/CircleColor'
 const initialProductState: IProduct = {
   title: "",
   description: "",
@@ -28,6 +29,10 @@ function App() {
   const [isOpen, setIsOpen] = useState(false)
   const [product, setProduct] = useState(initialProductState)
   const [errors, setErrors] = useState(initialErrorState)
+  const [tempColors, setTempColors] = useState<string[]>([])
+  console.log('====================================');
+  console.log(tempColors);
+  console.log('====================================');
   function closeModal() {
     setIsOpen(false)
   }
@@ -59,14 +64,14 @@ function App() {
       imageURL,
       price
     })
-    const isProductValid = Object.values(errors).some(value => value === '') 
-    && Object.values(errors).every(value => value === '') 
-    if(!isProductValid){ 
+    const isProductValid = Object.values(errors).some(value => value === '')
+      && Object.values(errors).every(value => value === '')
+    if (!isProductValid) {
       setErrors(errors)
-      return 
+      return
     }
     console.log("Success");
-    
+
   }
 
   const renderProductList = productList.map(product => <ProductCard product={product} key={product.id} />)
@@ -77,7 +82,13 @@ function App() {
       <ErrorMessage message={errors[input.name]} />
     </div>)
   })
-
+  const renderColors = colors.map(color => <CircleColor key={color} color={color} onClick={() => {
+    if (tempColors.includes(color)) {
+      setTempColors(prev => prev.filter(item => item !== color))
+      return
+    }
+    setTempColors(prev => [...prev, color])
+  }} />)
 
   return (
 
@@ -86,9 +97,21 @@ function App() {
       <Modal isOpen={isOpen} closeModal={closeModal} title='ADD A NEW PRODUCT'>
         <div className='space-y-3'>
           {renderAddProductFormInputs}
+          <div className="flex gap-2">
+            {renderColors}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {
+              tempColors.map(color => (
+                <span className='p-1 text-sm rounded-md text-white font-semibold' key={color} style={{
+                  backgroundColor: `${color}` //tailwind works on build time while react js work on run time 
+                }} >{color}</span>
+              ))
+            }
+          </div>
           <form className="flex space-x-3" onSubmit={submitHandler}>
             <Button className="bg-indigo-700 hover:bg-indigo-500" width='w-full'>Submit</Button>
-            <Button className="bg-gray-600 hover:bg-gray-500" width='w-full' onClick={onCancelHandler}>Cancel</Button>
+            <Button className="bg-gray-600 hover:bg-gray-500" width='w-full' type='button' onClick={onCancelHandler}>Cancel</Button>
           </form>
         </div>
       </Modal>
