@@ -8,6 +8,7 @@ import { IProduct } from './interfaces'
 import { productValidation } from './validation'
 import ErrorMessage from './components/ErrorMessage'
 import CircleColor from './components/CircleColor'
+import { v4 as uuid } from "uuid";
 const initialProductState: IProduct = {
   title: "",
   description: "",
@@ -28,6 +29,7 @@ const initialErrorState = {
 function App() {
   const [isOpen, setIsOpen] = useState(false)
   const [product, setProduct] = useState(initialProductState)
+  const [products, setProducts] = useState(productList)
   const [errors, setErrors] = useState(initialErrorState)
   const [tempColors, setTempColors] = useState<string[]>([])
   console.log('====================================');
@@ -71,10 +73,13 @@ function App() {
       return
     }
     console.log("Success");
-
+    setProducts(prev => [{ id: uuid(), ...product, colors: tempColors },...prev])
+    setProduct(initialProductState)
+    setTempColors([])
+    closeModal()
   }
 
-  const renderProductList = productList.map(product => <ProductCard product={product} key={product.id} />)
+  const renderProductList = products.map(product => <ProductCard product={product} key={product.id} />)
   const renderAddProductFormInputs = formInputsList.map(input => {
     return (<div key={input.id} className='flex flex-col'>
       <label className='text-sm font-medium mb-[3px]' htmlFor={input.id}>{input.label}</label>
