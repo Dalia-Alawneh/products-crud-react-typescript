@@ -2,13 +2,14 @@ import ProductCard from './components/ProductCard'
 import Button from './components/ui/Button'
 import Input from './components/ui/Input'
 import Modal from './components/ui/Modal'
-import { colors, formInputsList, productList } from './data'
+import { categories, colors, formInputsList, productList } from './data'
 import { ChangeEvent, FormEvent, useState } from 'react'
 import { IProduct } from './interfaces'
 import { productValidation } from './validation'
 import ErrorMessage from './components/ErrorMessage'
 import CircleColor from './components/CircleColor'
 import { v4 as uuid } from "uuid";
+import Select from './components/ui/Select'
 const initialProductState: IProduct = {
   title: "",
   description: "",
@@ -32,6 +33,7 @@ function App() {
   const [products, setProducts] = useState(productList)
   const [errors, setErrors] = useState(initialErrorState)
   const [tempColors, setTempColors] = useState<string[]>([])
+  const [selectedCategory, setSelectedCategory] = useState(categories[3])
   console.log('====================================');
   console.log(tempColors);
   console.log('====================================');
@@ -73,7 +75,7 @@ function App() {
       return
     }
     console.log("Success");
-    setProducts(prev => [{ id: uuid(), ...product, colors: tempColors },...prev])
+    setProducts(prev => [{ id: uuid(), ...product, colors: tempColors, category: selectedCategory }, ...prev])
     setProduct(initialProductState)
     setTempColors([])
     closeModal()
@@ -102,6 +104,7 @@ function App() {
       <Modal isOpen={isOpen} closeModal={closeModal} title='ADD A NEW PRODUCT'>
         <div className='space-y-3'>
           {renderAddProductFormInputs}
+          <Select selected={selectedCategory} setSelected={setSelectedCategory} />
           <div className="flex gap-2">
             {renderColors}
           </div>
