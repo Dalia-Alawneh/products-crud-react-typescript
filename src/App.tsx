@@ -39,12 +39,6 @@ function App() {
   const [errors, setErrors] = useState(initialErrorState)
   const [tempColors, setTempColors] = useState<string[]>([])
   const [selectedCategory, setSelectedCategory] = useState(categories[3])
-  console.log('====================================');
-  console.log(tempColors);
-  console.log('====================================');
-  console.log('====================================');
-  console.log("productToEdit", productToEdit);
-  console.log('====================================');
   function closeModal() {
     setIsOpen(false)
     setErrors(initialErrorState)
@@ -123,9 +117,6 @@ function App() {
     const isProductValid = Object.values(errors).some(value => value === '')
       && Object.values(errors).every(value => value === '')
     if (!isProductValid) {
-      console.log('====================================');
-      console.log("productToEdit", productToEdit);
-      console.log('====================================');
       setErrors(errors)
       return
     }
@@ -195,12 +186,7 @@ function App() {
       </Modal>
       <Modal isOpen={isEditOpen} closeModal={closeEditModal} title='EDIT THIS PRODUCT'>
         <form className='space-y-3' onSubmit={submitEditHandler}>
-          {/* {formInputsList.map(input => renderProductEditWithErrorMsg(input.id, input.name, input.label))} */}
-          {renderProductEditWithErrorMsg("title", "title", "Product Title")}
-          {renderProductEditWithErrorMsg("description", "description", "Product Description")}
-          {renderProductEditWithErrorMsg("imageURL", "imageURL", "Product Image URL")}
-          {renderProductEditWithErrorMsg("price", "price", "Product Price")}
-
+          {formInputsList.map(input => renderProductEditWithErrorMsg(input.id, input.name, input.label))}
           <Select selected={productToEdit.category} setSelected={(value) => setProductToEdit({ ...productToEdit, category: value })} />
           <div className="flex gap-2">
             {renderColors}
