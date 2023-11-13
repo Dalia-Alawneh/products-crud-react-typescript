@@ -32,6 +32,7 @@ const initialErrorState = {
 function App() {
   const [isOpen, setIsOpen] = useState(false)
   const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false)
   const [product, setProduct] = useState(initialProductState)
   const [products, setProducts] = useState(productList)
   const [productToEdit, setProductToEdit] = useState(initialProductState)
@@ -50,6 +51,13 @@ function App() {
   function closeEditModal() {
     setIsEditOpen(false)
     setErrors(initialErrorState)
+  }
+
+  function openDeleteModal() {
+    setIsDeleteOpen(true)
+  }
+  function closeDeleteModal() {
+    setIsDeleteOpen(false)
   }
 
   function openEditModal() {
@@ -80,6 +88,9 @@ function App() {
   const onCancelHandler = (): void => {
     setProduct(initialProductState)
     closeModal()
+  }
+  const onCancelEditHandler = (): void => {
+    closeEditModal()
   }
   const submitHandler = (event: FormEvent<HTMLFormElement>): void => {
 
@@ -127,7 +138,14 @@ function App() {
     setTempColors([])
     closeEditModal()
   }
-
+  const submitDeleteHandler = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    const filtered = products.filter(product => product.id !== productToEdit.id)
+    console.log(filtered);
+    
+    setProducts(filtered)
+    closeDeleteModal()
+  }
   const renderProductEditWithErrorMsg = (id: string, name: TProductNames, label: string) => {
     return (
       <div className='flex flex-col' key={id}>
@@ -137,7 +155,7 @@ function App() {
       </div>
     )
   }
-  const renderProductList = products.map((product, index) => <ProductCard productToEditIndex={index} setProductToEditIndex={setProductToEditIndex} openEditModal={openEditModal} setProductToEdit={setProductToEdit} product={product} key={product.id} />)
+  const renderProductList = products.map((product, index) => <ProductCard openConfirmModal={openDeleteModal} productToEditIndex={index} setProductToEditIndex={setProductToEditIndex} openEditModal={openEditModal} setProductToEdit={setProductToEdit} product={product} key={product.id} />)
   const renderAddProductFormInputs = formInputsList.map(input => {
     return (<div key={input.id} className='flex flex-col'>
       <label className='text-sm font-medium mb-[3px]' htmlFor={input.id}>{input.label}</label>
@@ -205,9 +223,19 @@ function App() {
           </div>
           <div className="flex space-x-3">
             <Button className="bg-indigo-700 hover:bg-indigo-500" width='w-full'>Submit</Button>
-            <Button className="bg-gray-600 hover:bg-gray-500" width='w-full' type='button' onClick={onCancelHandler}>Cancel</Button>
+            <Button className="bg-gray-600 hover:bg-gray-500" width='w-full' type='button' onClick={onCancelEditHandler}>Cancel</Button>
           </div>
         </form>
+      </Modal>
+      <Modal isOpen={isDeleteOpen} closeModal={closeDeleteModal} title='DELETE❗'>
+        <div className='space-y-3'>
+          <p>Are you sure you want to delete this product?</p>
+          <span className='font-bold'>You can't retrive it❗</span>
+          <form className="flex space-x-3" onSubmit={submitDeleteHandler}>
+            <Button className="bg-red-800 hover:bg-red-700" width='w-full'>Yes, Delete it</Button>
+            <Button className="bg-gray-600 hover:bg-gray-500" width='w-full' type='button' onClick={closeDeleteModal}>Cancel</Button>
+          </form>
+        </div>
       </Modal>
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-3 gap-2 md:gap-4'>
         {renderProductList}
