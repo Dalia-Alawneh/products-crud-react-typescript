@@ -7,11 +7,11 @@ import Button from "./ui/Button.tsx"
 interface IProps {
     product: IProduct;
     setProductToEdit: (product: IProduct) => void;
-    openEditModal: ()=> void;
-    productToEditIndex:number;
-    setProductToEditIndex: (val:number)=>void
+    openEditModal: () => void;
+    productToEditIndex: number;
+    setProductToEditIndex: (val: number) => void
 }
-const ProductCard = ({ product, setProductToEdit ,openEditModal, productToEditIndex, setProductToEditIndex }: IProps) => {
+const ProductCard = ({ product, setProductToEdit, openEditModal, productToEditIndex, setProductToEditIndex }: IProps) => {
     const { title, description, imageURL, price, category, colors } = product
     // ____ Render _____
     const renderColors = colors.map(color => (<CircleColor
@@ -35,10 +35,13 @@ const ProductCard = ({ product, setProductToEdit ,openEditModal, productToEditIn
             </div>
             <div className="flex justify-between items-center">
                 <span className="text-indigo-400 font-bold">${price}</span>
-                <Image className="w-10 h-10 rounded-full object-center"
-                    imageUrl={category.imageURL}
-                    alt="name"
-                />
+                <div className="flex items-center gap-3">
+                    <span className="text-sm">{category.name}</span>
+                    <Image className="w-10 h-10 rounded-full object-center"
+                        imageUrl={category.imageURL}
+                        alt="name"
+                    />
+                </div>
             </div>
             <div className="flex space-x-2 mt-5">
                 <Button className="bg-indigo-700" width="w-full" onClick={onEdit}>Edit</Button>

@@ -159,8 +159,10 @@ function App() {
 
   return (
 
-    <main className='container'>
-      <Button className="bg-indigo-700" width='w-full' onClick={openModal}  >Submit</Button>
+    <main className='container py-5'>
+      <div className="text-center mt-5">
+      <Button className="bg-indigo-700 px-3 hover:bg-indigo-500" width='w-fit' onClick={openModal}  >Build A Product</Button>
+      </div>
       <Modal isOpen={isOpen} closeModal={closeModal} title='ADD A NEW PRODUCT'>
         <div className='space-y-3'>
           {renderAddProductFormInputs}
