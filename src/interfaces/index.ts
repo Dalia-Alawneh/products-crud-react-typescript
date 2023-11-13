@@ -1,4 +1,4 @@
-import { ProductCategoriesTypes, ProductNameTypes } from "../types";
+import { ProductCategoriesTypes, TProductNames } from "../types";
 
 export interface IProduct {
     id?: string | undefined;
@@ -15,7 +15,7 @@ export interface IProduct {
 
 export interface IFormInput {
     id: string;
-    name: ProductNameTypes;
+    name: TProductNames;
     label:string;
     type: string;
 }

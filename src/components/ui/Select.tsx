@@ -1,11 +1,11 @@
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { Listbox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
 import { categories } from '../../data'
 import { ICategory } from '../../interfaces';
 
 interface IProps{
-    selected: ICategory;
+    selected: {name:string; imageURL:string};
     setSelected: (category:ICategory)=>void
 }
 
