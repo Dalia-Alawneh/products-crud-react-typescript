@@ -11,6 +11,7 @@ import CircleColor from './components/CircleColor'
 import { v4 as uuid } from "uuid";
 import Select from './components/ui/Select'
 import { TProductNames } from './types'
+import toast, {Toaster} from 'react-hot-toast'
 const initialProductState: IProduct = {
   title: "",
   description: "",
@@ -114,6 +115,8 @@ function App() {
     setProduct(initialProductState)
     setTempColors([])
     closeModal()
+    toast.success('Successfully Added!')
+
   }
   const submitEditHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
@@ -137,14 +140,14 @@ function App() {
     setProductToEdit(initialProductState)
     setTempColors([])
     closeEditModal()
+    toast.success('Successfully Updated!')
   }
   const submitDeleteHandler = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     const filtered = products.filter(product => product.id !== productToEdit.id)
-    console.log(filtered);
-    
     setProducts(filtered)
     closeDeleteModal()
+    toast.success('Successfully Deleted!')
   }
   const renderProductEditWithErrorMsg = (id: string, name: TProductNames, label: string) => {
     return (
@@ -240,6 +243,7 @@ function App() {
       <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 p-3 gap-2 md:gap-4'>
         {renderProductList}
       </div>
+      <Toaster />
     </main>
   )
 }
