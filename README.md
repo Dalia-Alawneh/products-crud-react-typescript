@@ -1,4 +1,4 @@
-# React TypeScript CRUD Project with Vite, Headless UI, and React Hot Toast
+# React TypeScript CRUD Project with TailwindCss, Headless UI, and React Hot Toast
 
 This project is a CRUD (Create, Read, Update, Delete) application built using React, TypeScript, and Vite. It leverages the power of Vite for a fast development experience, TypeScript for static typing, and incorporates additional libraries like Headless UI and React Hot Toast for enhanced UI interactions.
 
