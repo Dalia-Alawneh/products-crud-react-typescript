@@ -8,5 +8,9 @@ export default defineConfig({
     rollupOptions: {
       external: ['uuid'],
     },
+    target: [
+      'node14',
+      'node > 16'
+    ],
   },
 })
