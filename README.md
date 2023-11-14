@@ -2,7 +2,14 @@
 
 This project is a CRUD (Create, Read, Update, Delete) application built using React, TypeScript, and Vite. It leverages the power of Vite for a fast development experience, TypeScript for static typing, and incorporates additional libraries like Headless UI and React Hot Toast for enhanced UI interactions.
 
-## Project Setup
+
+## Live Demo
+
+Check out the live demo to see the project in action:
+
+[![Live Demo Video](./src/assets/thumbnail-image.png)](https://drive.google.com/drive/folders/1qCy4LG6vQrFAgfrYhIDf-h7qAEDWZfT1?usp=sharing)
+
+Click the image above to watch the recorded demo.
 
 ### Technologies Used
 
