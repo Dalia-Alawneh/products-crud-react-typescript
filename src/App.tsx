@@ -3,7 +3,7 @@ import Button from './components/ui/Button'
 import Input from './components/ui/Input'
 import Modal from './components/ui/Modal'
 import { categories, colors, formInputsList, productList } from './data'
-import { ChangeEvent, FormEvent, useState } from 'react'
+import { ChangeEvent, FormEvent, useState, useCallback } from 'react'
 import { IProduct } from './interfaces'
 import { productValidation } from './validation'
 import ErrorMessage from './components/ErrorMessage'
@@ -46,35 +46,32 @@ function App() {
     setErrors(initialErrorState)
   }
 
-  function openModal() {
+  const openModal= useCallback(() =>{
     setIsOpen(true)
-  }
+  }, [])
   function closeEditModal() {
     setIsEditOpen(false)
     setErrors(initialErrorState)
   }
 
-  function openDeleteModal() {
+  const openDeleteModal= useCallback(()=> {
     setIsDeleteOpen(true)
-  }
+  },[])
   function closeDeleteModal() {
     setIsDeleteOpen(false)
   }
 
-  function openEditModal() {
+  const openEditModal = useCallback(()=> {
     setIsEditOpen(true)
-  }
-  const onChangeHandler = (e: ChangeEvent<HTMLInputElement>): void => {
+  }, [])
+  const onChangeHandler = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = e.target;
-    setProduct({
-      ...product,
-      [name]: value
-    })
-    setErrors({
-      ...errors,
+    setProduct(prev=>({...prev,[name]: value}))
+    setErrors(prev=> ({
+      ...prev,
       [name]: '',
-    })
-  }
+    }))
+  },[])
   const onChangeEditHandler = (e: ChangeEvent<HTMLInputElement>): void => {
     const { value, name } = e.target;
     setProductToEdit({

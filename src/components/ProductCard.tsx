@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { IProduct } from "../interfaces/index.ts"
 import { textSlicer } from "../utils/functions.ts";
 import CircleColor from "./CircleColor.tsx";
@@ -57,4 +58,4 @@ const ProductCard = ({ product, setProductToEdit, openEditModal, productToEditIn
     )
 }
 
-export default ProductCard
+export default memo(ProductCard)
